@@ -13,9 +13,21 @@ type account struct {
 	url      string
 }
 
-func main() {
-	fmt.Println(generatePassword(12))
+func (acc *account) outputPassword() {
+	fmt.Println(acc.login)
+	fmt.Println(acc.password)
+	fmt.Println(acc.url)
+}
 
+func (acc *account) generatePassword(length int) {
+	newPass := make([]rune, length)
+	for i := range newPass {
+		newPass[i] = chars[rand.IntN(len(chars))]
+	}
+	acc.password = string(newPass)
+}
+
+func main() {
 	login := promptData("Enter Login")
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
@@ -25,8 +37,8 @@ func main() {
 		password: password,
 		url:      url,
 	}
-
-	outputPassword(&myAccount)
+	myAccount.generatePassword(12)
+	myAccount.outputPassword()
 }
 
 func promptData(prompt string) string {
@@ -35,18 +47,4 @@ func promptData(prompt string) string {
 	fmt.Scanln(&res)
 
 	return res
-}
-
-func outputPassword(account *account) {
-	fmt.Println(account.login)
-	fmt.Println(account.password)
-	fmt.Println(account.url)
-}
-
-func generatePassword(length int) string {
-	newPass := make([]rune, length)
-	for i := range newPass {
-		newPass[i] = chars[rand.IntN(len(chars))]
-	}
-	return string(newPass)
 }
