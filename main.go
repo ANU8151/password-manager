@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"net/url"
+	"time"
 )
 
 var chars = []rune("abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()")
@@ -15,13 +16,19 @@ type account struct {
 	url      string
 }
 
-func (acc *account) outputPassword() {
+type accountWithTimestamp struct {
+	account
+	createdAt time.Time
+	updatedAt time.Time
+}
+
+func (acc *accountWithTimestamp) outputPassword() {
 	fmt.Println(acc.login)
 	fmt.Println(acc.password)
 	fmt.Println(acc.url)
 }
 
-func (acc *account) generatePassword(length int) {
+func (acc *accountWithTimestamp) generatePassword(length int) {
 	newPass := make([]rune, length)
 	for i := range newPass {
 		newPass[i] = chars[rand.IntN(len(chars))]
@@ -29,7 +36,7 @@ func (acc *account) generatePassword(length int) {
 	acc.password = string(newPass)
 }
 
-func newAccount(login, password, urlString string) (*account, error) {
+func newAccountWithTimestamp(login, password, urlString string) (*accountWithTimestamp, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
@@ -39,10 +46,14 @@ func newAccount(login, password, urlString string) (*account, error) {
 	}
 	fmt.Println("Account created successfully")
 
-	newAcc := &account{
-		login:    login,
-		password: password,
-		url:      urlString,
+	newAcc := &accountWithTimestamp{
+		account: account{
+			login:    login,
+			password: password,
+			url:      urlString,
+		},
+		createdAt: time.Now(),
+		updatedAt: time.Now(),
 	}
 	newAcc.generatePassword(12)
 	return newAcc, nil
@@ -53,7 +64,7 @@ func main() {
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
-	myAccount, err := newAccount(login, password, url)
+	myAccount, err := newAccountWithTimestamp(login, password, url)
 	if err != nil {
 		fmt.Println("Error creating account:", err)
 		return
