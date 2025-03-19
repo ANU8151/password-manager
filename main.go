@@ -27,16 +27,20 @@ func (acc *account) generatePassword(length int) {
 	acc.password = string(newPass)
 }
 
+func newAccount(login, password, url string) *account {
+	return &account{
+		login:    login,
+		password: password,
+		url:      url,
+	}
+}
+
 func main() {
 	login := promptData("Enter Login")
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
-	myAccount := account{
-		login:    login,
-		password: password,
-		url:      url,
-	}
+	myAccount := newAccount(login, password, url)
 	myAccount.generatePassword(12)
 	myAccount.outputPassword()
 }
