@@ -30,18 +30,22 @@ func (acc *account) generatePassword(length int) {
 }
 
 func newAccount(login, password, urlString string) (*account, error) {
+	if login == "" {
+		return nil, errors.New("INVALID_LOGIN")
+	}
 	_, err := url.ParseRequestURI(urlString)
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
 	}
-
 	fmt.Println("Account created successfully")
 
-	return &account{
+	newAcc := &account{
 		login:    login,
 		password: password,
 		url:      urlString,
-	}, nil
+	}
+	newAcc.generatePassword(12)
+	return newAcc, nil
 }
 
 func main() {
