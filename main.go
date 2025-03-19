@@ -1,8 +1,10 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand/v2"
+	"net/url"
 )
 
 var chars = []rune("abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()")
@@ -27,12 +29,19 @@ func (acc *account) generatePassword(length int) {
 	acc.password = string(newPass)
 }
 
-func newAccount(login, password, url string) *account {
+func newAccount(login, password, urlString string) (*account, error) {
+	_, err := url.ParseRequestURI(urlString)
+	if err != nil {
+		return nil, errors.New("INVALID_URL")
+	}
+
+	fmt.Println("Account created successfully")
+
 	return &account{
 		login:    login,
 		password: password,
-		url:      url,
-	}
+		url:      urlString,
+	}, nil
 }
 
 func main() {
@@ -40,9 +49,14 @@ func main() {
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
-	myAccount := newAccount(login, password, url)
+	myAccount, err := newAccount(login, password, url)
+	if err != nil {
+		fmt.Println("Error creating account:", err)
+		return
+	}
 	myAccount.generatePassword(12)
 	myAccount.outputPassword()
+
 }
 
 func promptData(prompt string) string {
