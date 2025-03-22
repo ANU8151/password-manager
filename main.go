@@ -4,9 +4,14 @@ import (
 	"fmt"
 
 	"github.com/ANU8151/password-manager/account"
+	"github.com/ANU8151/password-manager/files"
 )
 
 func main() {
+	createAccount()
+}
+
+func createAccount() {
 	login := promptData("Enter Login")
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
@@ -16,7 +21,14 @@ func main() {
 		fmt.Println("Error creating account:", err)
 		return
 	}
-	myAccount.OutputPassword()
+
+	data, err := myAccount.ToBytes()
+	if err != nil {
+		fmt.Println("Error converting account to bytes:", err)
+		return
+	}
+
+	files.WriteFile(data, "accounts.json")
 
 }
 

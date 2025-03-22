@@ -18,14 +18,14 @@ func ReadFile(name string) {
 	fmt.Println(content)
 }
 
-func WriteFile(content string, name string) {
+func WriteFile(content []byte, name string) {
 	file, err := os.Create(name)
 	if err != nil {
 		fmt.Println("Error creating file:", err)
 		return
 	}
 	defer file.Close()
-	_, err = file.WriteString(content)
+	_, err = file.Write(content)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
