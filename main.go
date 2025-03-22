@@ -8,7 +8,41 @@ import (
 )
 
 func main() {
-	createAccount()
+Menu:
+	for {
+		variant := getMenu()
+		switch variant {
+		case 1:
+			createAccount()
+		case 2:
+			findAccount()
+		case 3:
+			deleteAccount()
+		default:
+			break Menu
+		}
+	}
+}
+
+func getMenu() int {
+	var variant int
+	fmt.Println("===== M E N U =====")
+	fmt.Println("1. Add Account")
+	fmt.Println("2. Find Accounts")
+	fmt.Println("3. Delete Account")
+	fmt.Println("4. Exit")
+	fmt.Println("====================")
+	fmt.Println("Choose variant")
+	fmt.Scanln(&variant)
+	return variant
+}
+
+func findAccount() {
+	fmt.Println("Find Account")
+}
+
+func deleteAccount() {
+	fmt.Println("Delete Account")
 }
 
 func createAccount() {
