@@ -7,15 +7,12 @@ import (
 	"github.com/fatih/color"
 )
 
-func ReadFile(name string) {
-	content, err := os.Open(name)
+func ReadFile(name string) ([]byte, error) {
+	content, err := os.ReadFile(name)
 	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return
+		return nil, err
 	}
-	defer content.Close()
-
-	fmt.Println(content)
+	return content, nil
 }
 
 func WriteFile(content []byte, name string) {

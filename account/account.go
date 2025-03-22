@@ -1,7 +1,6 @@
 package account
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
@@ -27,14 +26,6 @@ func (acc *account) OutputPassword() {
 	color.Green(acc.Url)
 }
 
-func (acc *account) ToBytes() ([]byte, error) {
-	file, err := json.Marshal(acc)
-	if err != nil {
-		return nil, errors.New("JSON_MARSHAL_ERROR")
-	}
-	return file, nil
-}
-
 func (acc *account) generatePassword(length int) {
 	newPass := make([]rune, length)
 	for i := range newPass {
@@ -45,7 +36,7 @@ func (acc *account) generatePassword(length int) {
 
 //func
 
-func NewAccountWithTimestamp(login, password, urlString string) (*account, error) {
+func NewAccount(login, password, urlString string) (*account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}

@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/ANU8151/password-manager/account"
-	"github.com/ANU8151/password-manager/files"
 )
 
 func main() {
@@ -50,20 +49,14 @@ func createAccount() {
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
-	myAccount, err := account.NewAccountWithTimestamp(login, password, url)
+	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
 		fmt.Println("Error creating account:", err)
 		return
 	}
 
-	data, err := myAccount.ToBytes()
-	if err != nil {
-		fmt.Println("Error converting account to bytes:", err)
-		return
-	}
-
-	files.WriteFile(data, "accounts.json")
-
+	vault := account.NewVault()
+	vault.AddAccount(*myAccount)
 }
 
 func promptData(prompt string) string {
