@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ANU8151/password-manager/account"
 )
 
 func main() {
@@ -9,13 +11,12 @@ func main() {
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
-	myAccount, err := newAccountWithTimestamp(login, password, url)
+	myAccount, err := account.NewAccountWithTimestamp(login, password, url)
 	if err != nil {
 		fmt.Println("Error creating account:", err)
 		return
 	}
-	myAccount.generatePassword(12)
-	myAccount.outputPassword()
+	myAccount.OutputPassword()
 
 }
 

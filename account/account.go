@@ -1,4 +1,4 @@
-package main
+package account
 
 import (
 	"errors"
@@ -6,6 +6,8 @@ import (
 	"math/rand/v2"
 	"net/url"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 var chars = []rune("abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()")
@@ -18,10 +20,10 @@ type account struct {
 	updatedAt time.Time
 }
 
-func (acc *account) outputPassword() {
-	fmt.Println(acc.login)
-	fmt.Println(acc.password)
-	fmt.Println(acc.url)
+func (acc *account) OutputPassword() {
+	color.Green(acc.login)
+	color.Green(acc.password)
+	color.Green(acc.url)
 }
 
 func (acc *account) generatePassword(length int) {
@@ -32,7 +34,7 @@ func (acc *account) generatePassword(length int) {
 	acc.password = string(newPass)
 }
 
-func newAccountWithTimestamp(login, password, urlString string) (*account, error) {
+func NewAccountWithTimestamp(login, password, urlString string) (*account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
