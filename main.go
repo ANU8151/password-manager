@@ -4,11 +4,9 @@ import (
 	"fmt"
 
 	"github.com/ANU8151/password-manager/account"
-	"github.com/ANU8151/password-manager/files"
 )
 
 func main() {
-	files.WriteFile("Hello!!!", "account.txt")
 	login := promptData("Enter Login")
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
