@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/ANU8151/password-manager/output"
-	"github.com/fatih/color"
 )
 
 var chars = []rune("abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()")
@@ -21,9 +20,9 @@ type Account struct {
 }
 
 func (acc *Account) OutputPassword() {
-	color.Green(acc.Login)
-	color.Green(acc.Password)
-	color.Green(acc.Url)
+	output.PrintError(acc.Login)
+	output.PrintError(acc.Password)
+	output.PrintError(acc.Url)
 }
 
 func (acc *Account) generatePassword(length int) {

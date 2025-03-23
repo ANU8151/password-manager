@@ -1,19 +1,22 @@
 package output
 
-import (
-	"github.com/fatih/color"
-)
+import "github.com/fatih/color"
 
 func PrintError(value any) {
-
-	switch t := value.(type) {
-	case string:
-		color.Red(t)
-	case int:
-		color.Red("Error Code: %d", t)
-	case error:
-		color.Red(t.Error())
-	default:
-		color.Red("Unknown Error")
+	intValue, ok := value.(int)
+	if ok {
+		color.Blue("Error Code: %d", intValue)
+		return
 	}
+	stringValue, ok := value.(string)
+	if ok {
+		color.Green(stringValue)
+		return
+	}
+	errorValue, ok := value.(error)
+	if ok {
+		color.Red(errorValue.Error())
+		return
+	}
+	color.Red("Unknown Error")
 }
