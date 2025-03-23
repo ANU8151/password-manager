@@ -6,10 +6,12 @@ import (
 	"github.com/ANU8151/password-manager/account"
 	"github.com/ANU8151/password-manager/files"
 	"github.com/fatih/color"
+	// )
 )
 
 func main() {
 	vault := account.NewVault(files.NewJsonDb("accounts.json"))
+	// vault := account.NewVault(cloud.NewCloudDb("https://files.cloud.com."))
 Menu:
 	for {
 		variant := getMenu()
