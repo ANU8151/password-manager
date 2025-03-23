@@ -12,7 +12,7 @@ import (
 
 var chars = []rune("abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()")
 
-type account struct {
+type Account struct {
 	Login     string    `json:"login"`
 	Password  string    `json:"password"`
 	Url       string    `json:"url"`
@@ -20,13 +20,13 @@ type account struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func (acc *account) OutputPassword() {
+func (acc *Account) OutputPassword() {
 	color.Green(acc.Login)
 	color.Green(acc.Password)
 	color.Green(acc.Url)
 }
 
-func (acc *account) generatePassword(length int) {
+func (acc *Account) generatePassword(length int) {
 	newPass := make([]rune, length)
 	for i := range newPass {
 		newPass[i] = chars[rand.IntN(len(chars))]
@@ -36,7 +36,7 @@ func (acc *account) generatePassword(length int) {
 
 //func
 
-func NewAccount(login, password, urlString string) (*account, error) {
+func NewAccount(login, password, urlString string) (*Account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
@@ -46,7 +46,7 @@ func NewAccount(login, password, urlString string) (*account, error) {
 	}
 	fmt.Println("Account created successfully")
 
-	newAcc := &account{
+	newAcc := &Account{
 
 		Login:     login,
 		Password:  password,

@@ -18,7 +18,7 @@ Menu:
 		case 2:
 			findAccount(vault)
 		case 3:
-			deleteAccount()
+			deleteAccount(vault)
 		default:
 			break Menu
 		}
@@ -50,8 +50,15 @@ func findAccount(vault *account.Vault) {
 
 }
 
-func deleteAccount() {
-	fmt.Println("Delete Account")
+func deleteAccount(vault *account.Vault) {
+	url := promptData("Enter URL")
+	isDeleted := vault.DeleteAccount(url)
+	if isDeleted {
+		color.Green("ACCOUNT_SUCCESSFULLY_DELETED")
+	} else {
+		color.Red("ACCOUNT_NOT_FOUND")
+	}
+
 }
 
 func createAccount(vault *account.Vault) {
