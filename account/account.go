@@ -2,7 +2,6 @@ package account
 
 import (
 	"errors"
-	"fmt"
 	"math/rand/v2"
 	"net/url"
 	"time"
@@ -44,7 +43,7 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
 	}
-	fmt.Println("Account created successfully")
+	color.Green("ACCOUNT_CREATED_SUCCESSFULLY")
 
 	newAcc := &Account{
 

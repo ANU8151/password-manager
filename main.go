@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	"github.com/ANU8151/password-manager/account"
+	"github.com/ANU8151/password-manager/files"
 	"github.com/fatih/color"
 )
 
 func main() {
-	vault := account.NewVault()
+	vault := account.NewVault(files.NewJsonDb("accounts.json"))
 Menu:
 	for {
 		variant := getMenu()
@@ -38,7 +39,7 @@ func getMenu() int {
 	return variant
 }
 
-func findAccount(vault *account.Vault) {
+func findAccount(vault *account.VaultWithDb) {
 	url := promptData("Enter URL")
 	accounts := vault.FindAccountByUrl(url)
 	if len(accounts) == 0 {
@@ -50,7 +51,7 @@ func findAccount(vault *account.Vault) {
 
 }
 
-func deleteAccount(vault *account.Vault) {
+func deleteAccount(vault *account.VaultWithDb) {
 	url := promptData("Enter URL")
 	isDeleted := vault.DeleteAccount(url)
 	if isDeleted {
@@ -61,14 +62,14 @@ func deleteAccount(vault *account.Vault) {
 
 }
 
-func createAccount(vault *account.Vault) {
+func createAccount(vault *account.VaultWithDb) {
 	login := promptData("Enter Login")
 	password := promptData("Enter Password")
 	url := promptData("Enter URL")
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
-		fmt.Println("Error creating account:", err)
+		fmt.Println("ERROR_CREATING_ACCOUNT: ", err)
 		return
 	}
 	vault.AddAccount(*myAccount)
