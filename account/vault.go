@@ -3,6 +3,7 @@ package account
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 
 	"time"
 
@@ -10,20 +11,20 @@ import (
 	"github.com/fatih/color"
 )
 
-type vault struct {
+type Vault struct {
 	Accounts  []account `json:"accounts"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func NewVault() *vault {
+func NewVault() *Vault {
 	content, err := files.ReadFile("accounts.json")
 	if err != nil {
-		return &vault{
+		return &Vault{
 			Accounts:  []account{},
 			UpdatedAt: time.Now(),
 		}
 	}
-	var vault vault
+	var vault Vault
 	err = json.Unmarshal(content, &vault)
 	if err != nil {
 		color.Red(err.Error())
@@ -31,7 +32,22 @@ func NewVault() *vault {
 	return &vault
 }
 
-func (vault *vault) AddAccount(acc account) {
+func (vault *Vault) FindAccountByUrl(url string) []account {
+	var accounts []account
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.Url, url)
+		if isMatched {
+			accounts = append(accounts, account)
+		}
+	}
+	return accounts
+}
+
+func (vault *Vault) DeleteAccount(url string) {
+
+}
+
+func (vault *Vault) AddAccount(acc account) {
 	vault.Accounts = append(vault.Accounts, acc)
 	vault.UpdatedAt = time.Now()
 	data, err := vault.ToBytes()
@@ -41,7 +57,7 @@ func (vault *vault) AddAccount(acc account) {
 	files.WriteFile(data, "accounts.json")
 }
 
-func (acc *vault) ToBytes() ([]byte, error) {
+func (acc *Vault) ToBytes() ([]byte, error) {
 	file, err := json.Marshal(acc)
 	if err != nil {
 		return nil, errors.New("JSON_MARSHAL_ERROR")
