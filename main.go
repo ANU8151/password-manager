@@ -9,12 +9,19 @@ import (
 	// )
 )
 
+var menu = map[string]func(*account.VaultWithDb){
+	"1": createAccount,
+	"2": findAccount,
+	"3": deleteAccount,
+}
+
 func main() {
 	vault := account.NewVault(files.NewJsonDb("accounts.json"))
 	// vault := account.NewVault(cloud.NewCloudDb("https://files.cloud.com."))
 Menu:
 	for {
 		fmt.Println("===== M E N U =====")
+
 		variant := promptData([]string{
 			"1. Add Account",
 			"2. Find Accounts",
@@ -23,16 +30,11 @@ Menu:
 			"===================",
 			"Choose variant: ",
 		})
-		switch variant {
-		case "1":
-			createAccount(vault)
-		case "2":
-			findAccount(vault)
-		case "3":
-			deleteAccount(vault)
-		default:
+		menuFunc := menu[variant]
+		if menuFunc == nil {
 			break Menu
 		}
+		menuFunc(vault)
 	}
 }
 
