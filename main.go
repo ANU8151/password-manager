@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/ANU8151/password-manager/account"
 	"github.com/ANU8151/password-manager/files"
@@ -40,7 +41,7 @@ Menu:
 
 func findAccount(vault *account.VaultWithDb) {
 	url := promptData([]string{"Enter URL: "})
-	accounts := vault.FindAccountByUrl(url)
+	accounts := vault.FindAccount(url, checkUrl)
 	if len(accounts) == 0 {
 		output.PrintError("ACCOUNT_NOT_FOUND")
 	}
@@ -48,6 +49,10 @@ func findAccount(vault *account.VaultWithDb) {
 		account.OutputPassword()
 	}
 
+}
+
+func checkUrl(acc account.Account, str string) bool {
+	return strings.Contains(acc.Url, str)
 }
 
 func deleteAccount(vault *account.VaultWithDb) {
