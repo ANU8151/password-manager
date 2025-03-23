@@ -7,16 +7,26 @@ import (
 	"github.com/fatih/color"
 )
 
-func ReadFile(name string) ([]byte, error) {
-	content, err := os.ReadFile(name)
+type JsonDb struct {
+	filename string
+}
+
+func NewJsonDb(filename string) *JsonDb {
+	return &JsonDb{
+		filename: filename,
+	}
+}
+
+func (db *JsonDb) Read() ([]byte, error) {
+	content, err := os.ReadFile(db.filename)
 	if err != nil {
 		return nil, err
 	}
 	return content, nil
 }
 
-func WriteFile(content []byte, name string) {
-	file, err := os.Create(name)
+func (db *JsonDb) Write(content []byte) {
+	file, err := os.Create(db.filename)
 	if err != nil {
 		fmt.Println("Error creating file:", err)
 		return
