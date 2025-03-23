@@ -10,9 +10,17 @@ import (
 	"github.com/fatih/color"
 )
 
-type Db interface {
+type ByteReader interface {
 	Read() ([]byte, error)
+}
+
+type ByteWriter interface {
 	Write([]byte)
+}
+
+type Db interface {
+	ByteWriter
+	ByteReader
 }
 
 type Vault struct {
@@ -26,7 +34,6 @@ type VaultWithDb struct {
 }
 
 func NewVault(db Db) *VaultWithDb {
-
 	content, err := db.Read()
 	if err != nil {
 		return &VaultWithDb{

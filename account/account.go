@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/ANU8151/password-manager/output"
 	"github.com/fatih/color"
 )
 
@@ -33,8 +34,6 @@ func (acc *Account) generatePassword(length int) {
 	acc.Password = string(newPass)
 }
 
-//func
-
 func NewAccount(login, password, urlString string) (*Account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
@@ -43,10 +42,7 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
 	}
-	color.Green("ACCOUNT_CREATED_SUCCESSFULLY")
-
 	newAcc := &Account{
-
 		Login:     login,
 		Password:  password,
 		Url:       urlString,
@@ -56,5 +52,6 @@ func NewAccount(login, password, urlString string) (*Account, error) {
 	if password == "" {
 		newAcc.generatePassword(12)
 	}
+	output.PrintError("ACCOUNT_CREATED_SUCCESSFULLY")
 	return newAcc, nil
 }

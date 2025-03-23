@@ -1,8 +1,6 @@
 package cloud
 
-import (
-	"github.com/fatih/color"
-)
+import "github.com/ANU8151/password-manager/output"
 
 type CloudDb struct {
 	url string // Define fields for the Cloud struct
@@ -19,5 +17,5 @@ func (db *CloudDb) Read() ([]byte, error) {
 }
 
 func (db *CloudDb) Write(content []byte) {
-	color.Green("FILE_WRITTEN_SUCCESSFULLY")
+	output.PrintError("FILE_WRITTEN_SUCCESSFULLY")
 }

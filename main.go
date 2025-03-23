@@ -5,7 +5,7 @@ import (
 
 	"github.com/ANU8151/password-manager/account"
 	"github.com/ANU8151/password-manager/files"
-	"github.com/fatih/color"
+	"github.com/ANU8151/password-manager/output"
 	// )
 )
 
@@ -45,7 +45,7 @@ func findAccount(vault *account.VaultWithDb) {
 	url := promptData("Enter URL")
 	accounts := vault.FindAccountByUrl(url)
 	if len(accounts) == 0 {
-		color.Red("ACCOUNT_NOT_FOUND")
+		output.PrintError("ACCOUNT_NOT_FOUND")
 	}
 	for _, account := range accounts {
 		account.OutputPassword()
@@ -57,9 +57,9 @@ func deleteAccount(vault *account.VaultWithDb) {
 	url := promptData("Enter URL")
 	isDeleted := vault.DeleteAccount(url)
 	if isDeleted {
-		color.Green("ACCOUNT_SUCCESSFULLY_DELETED")
+		output.PrintError("ACCOUNT_SUCCESSFULLY_DELETED")
 	} else {
-		color.Red("ACCOUNT_NOT_FOUND")
+		output.PrintError("ACCOUNT_NOT_FOUND")
 	}
 
 }
@@ -71,7 +71,7 @@ func createAccount(vault *account.VaultWithDb) {
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
-		fmt.Println("ERROR_CREATING_ACCOUNT: ", err)
+		output.PrintError("ERROR_CREATING_ACCOUNT")
 		return
 	}
 	vault.AddAccount(*myAccount)

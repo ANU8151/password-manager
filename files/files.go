@@ -1,10 +1,9 @@
 package files
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/fatih/color"
+	"github.com/ANU8151/password-manager/output"
 )
 
 type JsonDb struct {
@@ -28,14 +27,14 @@ func (db *JsonDb) Read() ([]byte, error) {
 func (db *JsonDb) Write(content []byte) {
 	file, err := os.Create(db.filename)
 	if err != nil {
-		fmt.Println("ERROR_CREATING_FILE:", err)
+		output.PrintError("ERROR_CREATING_FILE")
 		return
 	}
 	defer file.Close()
 	_, err = file.Write(content)
 	if err != nil {
-		fmt.Println("ERROR_WRITING_TO_FILE:", err)
+		output.PrintError("ERROR_WRITING_TO_FILE")
 		return
 	}
-	color.Green("FILE_WRITTEN_SUCCESSFULLY")
+	output.PrintError("FILE_WRITTEN_SUCCESSFULLY")
 }
