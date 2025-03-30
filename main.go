@@ -24,7 +24,7 @@ Menu:
 	for {
 		fmt.Println("===== M E N U =====")
 
-		variant := promptData([]string{
+		variant := promptData(
 			"1. Add Account",
 			"2. Find by URL",
 			"3. Find by Login",
@@ -32,7 +32,7 @@ Menu:
 			"5. Exit",
 			"===================",
 			"Choose variant: ",
-		})
+		)
 		menuFunc := menu[variant]
 		if menuFunc == nil {
 			break Menu
@@ -42,7 +42,7 @@ Menu:
 }
 
 func findAccountByUrl(vault *account.VaultWithDb) {
-	url := promptData([]string{"Enter URL: "})
+	url := promptData("Enter URL: ")
 	accounts := vault.FindAccount(url, func(acc account.Account, str string) bool {
 		return strings.Contains(acc.Url, str)
 	})
@@ -50,7 +50,7 @@ func findAccountByUrl(vault *account.VaultWithDb) {
 }
 
 func findAccountByLogin(vault *account.VaultWithDb) {
-	login := promptData([]string{"Enter URL: "})
+	login := promptData("Enter Login: ")
 	accounts := vault.FindAccount(login, func(acc account.Account, str string) bool {
 		return strings.Contains(acc.Login, str)
 	})
@@ -67,7 +67,7 @@ func outputResult(accounts *[]account.Account) {
 }
 
 func deleteAccount(vault *account.VaultWithDb) {
-	url := promptData([]string{"Enter URL: "})
+	url := promptData("Enter URL: ")
 	isDeleted := vault.DeleteAccount(url)
 	if isDeleted {
 		output.PrintError("ACCOUNT_SUCCESSFULLY_DELETED")
@@ -78,9 +78,9 @@ func deleteAccount(vault *account.VaultWithDb) {
 }
 
 func createAccount(vault *account.VaultWithDb) {
-	login := promptData([]string{"Enter Login: "})
-	password := promptData([]string{"Enter Password: "})
-	url := promptData([]string{"Enter URL: "})
+	login := promptData("Enter Login: ")
+	password := promptData("Enter Password: ")
+	url := promptData("Enter URL: ")
 
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
@@ -90,7 +90,7 @@ func createAccount(vault *account.VaultWithDb) {
 	vault.AddAccount(*myAccount)
 }
 
-func promptData[T any](prompt []T) string {
+func promptData(prompt ...any) string {
 	for i, line := range prompt {
 		if i == len(prompt)-1 {
 			fmt.Printf("%v", line)
