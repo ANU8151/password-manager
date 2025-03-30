@@ -17,6 +17,16 @@ var menu = map[string]func(*account.VaultWithDb){
 	"4": deleteAccount,
 }
 
+var menuVariants = []string{
+	"1. Add Account",
+	"2. Find by URL",
+	"3. Find by Login",
+	"4. Delete Account",
+	"5. Exit",
+	"===================",
+	"Choose variant: ",
+}
+
 func main() {
 	vault := account.NewVault(files.NewJsonDb("accounts.json"))
 	// vault := account.NewVault(cloud.NewCloudDb("https://files.cloud.com."))
@@ -24,15 +34,7 @@ Menu:
 	for {
 		fmt.Println("===== M E N U =====")
 
-		variant := promptData(
-			"1. Add Account",
-			"2. Find by URL",
-			"3. Find by Login",
-			"4. Delete Account",
-			"5. Exit",
-			"===================",
-			"Choose variant: ",
-		)
+		variant := promptData(menuVariants...)
 		menuFunc := menu[variant]
 		if menuFunc == nil {
 			break Menu
@@ -90,7 +92,7 @@ func createAccount(vault *account.VaultWithDb) {
 	vault.AddAccount(*myAccount)
 }
 
-func promptData(prompt ...any) string {
+func promptData(prompt ...string) string {
 	for i, line := range prompt {
 		if i == len(prompt)-1 {
 			fmt.Printf("%v", line)
