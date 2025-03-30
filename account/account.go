@@ -19,7 +19,7 @@ type Account struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-func (acc *Account) OutputPassword() {
+func (acc *Account) Output() {
 	output.PrintError(acc.Login)
 	output.PrintError(acc.Password)
 	output.PrintError(acc.Url)
