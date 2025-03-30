@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"strings"
-
 	"time"
 
 	"github.com/fatih/color"
