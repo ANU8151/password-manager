@@ -5,8 +5,10 @@ import (
 	"strings"
 
 	"github.com/ANU8151/password-manager/account"
+	"github.com/ANU8151/password-manager/encrypter"
 	"github.com/ANU8151/password-manager/files"
 	"github.com/ANU8151/password-manager/output"
+	"github.com/joho/godotenv"
 	// )
 )
 
@@ -28,7 +30,13 @@ var menuVariants = []string{
 }
 
 func main() {
-	vault := account.NewVault(files.NewJsonDb("accounts.json"))
+
+	err := godotenv.Load()
+	if err != nil {
+		output.PrintError("ENV_FILE_NOT_FOUND")
+	}
+
+	vault := account.NewVault(files.NewJsonDb("accounts.vault"), *encrypter.NewEncrypter())
 	// vault := account.NewVault(cloud.NewCloudDb("https://files.cloud.com."))
 Menu:
 	for {

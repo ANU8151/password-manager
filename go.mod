@@ -2,7 +2,10 @@ module github.com/ANU8151/password-manager
 
 go 1.24.0
 
-require github.com/fatih/color v1.18.0
+require (
+	github.com/fatih/color v1.18.0
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
